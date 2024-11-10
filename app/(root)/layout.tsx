@@ -17,7 +17,9 @@ export default function RootLayout({
             <Image src="/icons/logo.svg" alt="logo" width={30} height={30} />
             <MobileNav />
           </article>
-          <article className="flex flex-col md:pb-14">{children}</article>
+          <article className="flex flex-1 flex-col md:pb-14 pt-4">
+            {children}
+          </article>
         </section>
         <RightSidebar />
       </main>
