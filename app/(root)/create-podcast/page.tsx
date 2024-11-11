@@ -22,6 +22,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { voiceDetails } from "@/constants";
 import { cn } from "@/lib/utils";
+import { AudioState, ImageState, VoiceState } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader } from "lucide-react";
 import { useState } from "react";
@@ -34,8 +35,24 @@ const formSchema = z.object({
 });
 
 const CreatePodcast = () => {
-  const [voiceSelected, setVoiceSelected] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  const [image, setImage] = useState<ImageState>({
+    imagePrompt: "",
+    imageStorageId: null,
+    imageUrl: "",
+  });
+
+  const [audio, setAudio] = useState<AudioState>({
+    audioUrl: "",
+    audioStorageId: null,
+    audioDuration: 0,
+  });
+
+  const [voice, setVoice] = useState<VoiceState>({
+    voiceType: "",
+    voicePrompt: "",
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,6 +64,7 @@ const CreatePodcast = () => {
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsSubmitting(true);
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
@@ -84,7 +102,11 @@ const CreatePodcast = () => {
               <Label className="text-16 font-bold text-white-1">
                 Select AI voice
               </Label>
-              <Select onValueChange={(value) => setVoiceSelected(value)}>
+              <Select
+                onValueChange={(value) =>
+                  setVoice((prevState) => ({ ...prevState, voiceType: value }))
+                }
+              >
                 <SelectTrigger
                   className={cn(
                     "w-full text-16 border-none bg-black-1 text-gray-1 focus-visible:ring-offset-orange-1"
@@ -103,9 +125,9 @@ const CreatePodcast = () => {
                     </SelectItem>
                   ))}
                 </SelectContent>
-                {voiceSelected && (
+                {voice.voiceType && (
                   <audio
-                    src={`/${voiceSelected}.mp3`}
+                    src={`/${voice.voiceType}.mp3`}
                     autoPlay
                     className="hidden"
                   />
@@ -133,7 +155,14 @@ const CreatePodcast = () => {
             ></FormField>
           </div>
           <div>
-            <GeneratePodcast />
+            <GeneratePodcast
+              image={image}
+              audio={audio}
+              voice={voice}
+              setImage={setImage}
+              setAudio={setAudio}
+              setVoice={setVoice}
+            />
             <GenerateThumbnail />
           </div>
           <div className="mt-10 w-full">
