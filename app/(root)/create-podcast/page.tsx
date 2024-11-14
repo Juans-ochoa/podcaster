@@ -163,7 +163,7 @@ const CreatePodcast = () => {
               setAudio={setAudio}
               setVoice={setVoice}
             />
-            <GenerateThumbnail />
+            <GenerateThumbnail image={image} setImage={setImage} />
           </div>
           <div className="mt-10 w-full">
             <Button

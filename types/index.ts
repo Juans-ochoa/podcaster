@@ -26,3 +26,8 @@ export interface GeneratePodcastProps {
   voice: VoiceState;
   setVoice: Dispatch<SetStateAction<VoiceState>>;
 }
+
+export interface ThumbnailProps {
+  image: ImageState;
+  setImage: Dispatch<SetStateAction<ImageState>>;
+}

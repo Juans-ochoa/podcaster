@@ -1,8 +1,5 @@
-import { api } from "@/convex/_generated/api";
 import { useToast } from "@/hooks/use-toast";
 import { GeneratePodcastProps } from "@/types";
-import { useUploadFiles } from "@xixixao/uploadstuff/react";
-import { useAction, useMutation } from "convex/react";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
@@ -12,20 +9,20 @@ import { Textarea } from "./ui/textarea";
 const useGeneratePodcast = (props: GeneratePodcastProps) => {
   const {
     setAudio,
-    voice: { voicePrompt, voiceType },
+    voice: { voicePrompt },
   } = props;
 
   const { toast } = useToast();
 
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
+  // const generateUploadUrl = useMutation(api.files.generateUploadUrl);
 
-  const { startUpload } = useUploadFiles(generateUploadUrl);
+  // const { startUpload } = useUploadFiles(generateUploadUrl);
 
-  const getPodcastAudio = useAction(api.openai.generateAudioAction);
+  // const getPodcastAudio = useAction(api.openai.generateAudioAction);
 
-  const getAudioUrl = useMutation(api.podcasts.getUrl);
+  // const getAudioUrl = useMutation(api.podcasts.getUrl);
 
   const generatePodcast = async () => {
     setIsGenerating(true);
@@ -40,22 +37,22 @@ const useGeneratePodcast = (props: GeneratePodcastProps) => {
     }
 
     try {
-      const response = await getPodcastAudio({
-        voice: voiceType,
-        input: voicePrompt,
-      });
+      // const response = await getPodcastAudio({
+      //   voice: voiceType,
+      //   input: voicePrompt,
+      // });
 
-      const blob = new Blob([response], { type: "audio/mpeg" });
-      const fileName = `podcast-${Date.now()}.mp3`;
-      const file = new File([blob], fileName, { type: "audio/mpeg" });
+      // const blob = new Blob([response], { type: "audio/mpeg" });
+      // const fileName = `podcast-${Date.now()}.mp3`;
+      // const file = new File([blob], fileName, { type: "audio/mpeg" });
 
-      const uploaded = await startUpload([file]);
+      // const uploaded = await startUpload([file]);
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const storageId = (uploaded[0].response as any).storageId;
+      // // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // const storageId = (uploaded[0].response as any).storageId;
 
-      const audioUrl = await getAudioUrl({ storageId });
-      setAudio((prevState) => ({ ...prevState, audioUrl: audioUrl! }));
+      // const audioUrl = await getAudioUrl({ storageId });
+      // setAudio((prevState) => ({ ...prevState, audioUrl: audioUrl! }));
       setIsGenerating(false);
 
       toast({
