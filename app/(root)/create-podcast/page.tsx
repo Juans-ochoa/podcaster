@@ -11,20 +11,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { voiceDetails } from "@/constants";
-import { cn } from "@/lib/utils";
+import { api } from "@/convex/_generated/api";
+import { toast } from "@/hooks/use-toast";
 import { AudioState, ImageState, VoiceState } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "convex/react";
 import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -35,10 +30,10 @@ const formSchema = z.object({
 });
 
 const CreatePodcast = () => {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const [image, setImage] = useState<ImageState>({
-    imagePrompt: "",
     imageStorageId: null,
     imageUrl: "",
   });
@@ -52,7 +47,10 @@ const CreatePodcast = () => {
   const [voice, setVoice] = useState<VoiceState>({
     voiceType: "",
     voicePrompt: "",
+    voiceUrl: "",
   });
+
+  const createPodcast = useMutation(api.podcasts.createPodcast);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -63,11 +61,40 @@ const CreatePodcast = () => {
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(data: z.infer<typeof formSchema>) {
     setIsSubmitting(true);
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+
+    if (!audio.audioUrl || !image.imageUrl) {
+      toast({
+        title: "Please generate audio and image",
+      });
+      setIsSubmitting(false);
+      throw new Error("Please generate audio and image");
+    }
+
+    try {
+      await createPodcast({
+        audioStorageId: audio.audioStorageId!,
+        podcastTitle: data.podcastTitle,
+        podcastDescription: data.podcastDescription,
+        audioUrl: audio.audioUrl,
+        imageUrl: image.imageUrl,
+        imageStorageId: image.imageStorageId!,
+        views: 0,
+        audioDuration: audio.audioDuration,
+      });
+
+      toast({ title: "Podcast created" });
+      router.push("/");
+    } catch (e) {
+      console.log(e);
+      toast({
+        title: "Something was wrong, podcast was not created",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -98,42 +125,6 @@ const CreatePodcast = () => {
                 </FormItem>
               )}
             />
-            <div className="flex flex-col gap-2.5">
-              <Label className="text-16 font-bold text-white-1">
-                Select AI voice
-              </Label>
-              <Select
-                onValueChange={(value) =>
-                  setVoice((prevState) => ({ ...prevState, voiceType: value }))
-                }
-              >
-                <SelectTrigger
-                  className={cn(
-                    "w-full text-16 border-none bg-black-1 text-gray-1 focus-visible:ring-offset-orange-1"
-                  )}
-                >
-                  <SelectValue placeholder="Select a voice" />
-                </SelectTrigger>
-                <SelectContent className="text-16 border-none bg-black-1 font-bold text-white-1 focus-visible:ring-orange-1">
-                  {voiceDetails.map(({ id, name }) => (
-                    <SelectItem
-                      className="capitalize focus:bg-orange-1"
-                      key={id}
-                      value={name}
-                    >
-                      {name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-                {voice.voiceType && (
-                  <audio
-                    src={`/${voice.voiceType}.mp3`}
-                    autoPlay
-                    className="hidden"
-                  />
-                )}
-              </Select>
-            </div>
             <FormField
               control={form.control}
               name="podcastDescription"
