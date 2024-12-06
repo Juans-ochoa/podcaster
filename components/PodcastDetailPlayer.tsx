@@ -99,7 +99,7 @@ const PodcastDetailPlayer = ({
               width={20}
               height={20}
               alt="random play"
-            />{" "}
+            />
             &nbsp; Play podcast
           </Button>
         </div>

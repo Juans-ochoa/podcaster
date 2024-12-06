@@ -27,6 +27,7 @@ import { z } from "zod";
 const formSchema = z.object({
   podcastTitle: z.string().min(2),
   podcastDescription: z.string().min(2),
+  podcastTranscription: z.string().min(10),
 });
 
 const CreatePodcast = () => {
@@ -57,6 +58,7 @@ const CreatePodcast = () => {
     defaultValues: {
       podcastTitle: "",
       podcastDescription: "",
+      podcastTranscription: "",
     },
   });
 
@@ -82,6 +84,7 @@ const CreatePodcast = () => {
         imageStorageId: image.imageStorageId!,
         views: 0,
         audioDuration: audio.audioDuration,
+        podcastTranscription: data.podcastTranscription,
       });
 
       toast({ title: "Podcast created" });
@@ -137,6 +140,25 @@ const CreatePodcast = () => {
                     <Textarea
                       className="input-class focus-visible:ring-offset-orange-1"
                       placeholder="Write a short podcast description..."
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-400" />
+                </FormItem>
+              )}
+            ></FormField>
+            <FormField
+              control={form.control}
+              name="podcastTranscription"
+              render={({ field }) => (
+                <FormItem className="flex flex-col gap-2.5">
+                  <FormLabel className="text-16 font-bold text-white-1">
+                    Transcription
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="input-class focus-visible:ring-offset-orange-1"
+                      placeholder="Write a transcription of your podcast here..."
                       {...field}
                     />
                   </FormControl>

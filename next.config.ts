@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "warmhearted-iguana-30.convex.cloud",
       },
+      {
+        protocol: "https",
+        hostname: "img.clerk.com",
+      },
     ],
   },
 };
