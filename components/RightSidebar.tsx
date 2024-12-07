@@ -1,12 +1,16 @@
 "use client";
 
+import { api } from "@/convex/_generated/api";
 import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
+import { useQuery } from "convex/react";
 import Image from "next/image";
 import Link from "next/link";
+import Carousel from "./Carousel";
 import Header from "./Header";
 
 const RightSidebar = () => {
   const { user } = useUser();
+  const topPodcasters = useQuery(api.users.getTopUserByPodcastCount);
 
   return (
     <aside className="right_sidebar flex p-6">
@@ -28,13 +32,12 @@ const RightSidebar = () => {
       </SignedIn>
       <section>
         <Header headerTitle="Fans like You" />
-        {/* <Carousel fansLikeDetail={23} /> */}
+        <Carousel fansLikeDetail={topPodcasters!} />
       </section>
       <section className="flex flex-col gap-8 pt-12">
         <Header headerTitle="Top Podcastrs" />
         <div className="flex flex-col gap-6"></div>
       </section>
-      <p className="text-white-1">Right sidebar</p>
     </aside>
   );
 };
