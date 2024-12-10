@@ -59,6 +59,7 @@ export interface TopPodcastersProps {
   }[];
   totalPodcasts: number;
 }
+
 export interface PodcastProps {
   _id: Id<"podcasts">;
   _creationTime: number;

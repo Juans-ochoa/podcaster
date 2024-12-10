@@ -31,8 +31,7 @@ const Carousel = ({ fansLikeDetail }: CarouselProps) => {
   );
 
   const slides =
-    fansLikeDetail &&
-    fansLikeDetail?.filter((item: any) => item.totalPodcasts > 0);
+    fansLikeDetail && fansLikeDetail?.filter((item) => item.totalPodcasts > 0);
 
   if (!slides) return <LoaderSpinner />;
 
@@ -47,7 +46,7 @@ const Carousel = ({ fansLikeDetail }: CarouselProps) => {
             key={item._id}
             className="carousel_box"
             onClick={() =>
-              router.push(`/podcasts/${item.podcast[0]?.podcastId}`)
+              router.push(`/podcasts/${item.podcast[0].podcastId}`)
             }
           >
             <Image

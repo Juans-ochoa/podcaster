@@ -12,10 +12,10 @@ export default function RootLayout({
 }>) {
   return (
     <div className="relative flex flex-col">
-      <main className="realtive flex bg-black-3">
+      <main className="relative flex bg-black-3">
         <LeftSidebar />
-        <section className="flex min-h-screen flex-1 px-4 sm:px-14">
-          <article className="mx-auto flex w-full max-w-5xl flex-col max-sm:px-4 md:hidden">
+        <section className="flex flex-col min-h-screen flex-1 px-4 sm:px-14">
+          <article className="flex h-16 items-center justify-between md:hidden">
             <Image src="/icons/logo.svg" alt="logo" width={30} height={30} />
             <MobileNav />
           </article>
