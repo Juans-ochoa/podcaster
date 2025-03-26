@@ -8,80 +8,8 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { Input } from "./ui/input";
 
-const useGeneratePodcast = (props: GeneratePodcastProps) => {
-  const {
-    setAudio,
-    voice: { voicePrompt },
-  } = props;
-
-  const { toast } = useToast();
-
-  const [isGenerating, setIsGenerating] = useState(false);
-
-  const generateUploadUrl = useMutation(api.files.generateUploadUrl);
-
-  const { startUpload } = useUploadFiles(generateUploadUrl);
-
-  const getAudioUrl = useMutation(api.podcasts.getUrl);
-
-  const generatePodcast = async () => {
-    setIsGenerating(true);
-
-    setAudio((prevState) => ({ ...prevState, audioUrl: "" }));
-
-    console.log({ voicePrompt });
-
-    if (!voicePrompt) {
-      toast({
-        title: "Please provide a voice type to generate voice podcast",
-      });
-      return setIsGenerating(false);
-    }
-
-    try {
-      // const binaryAudio = atob(response);
-      // const arrayBuffer = Uint8Array.from(binaryAudio, (char) =>
-      //   char.charCodeAt(0)
-      // ).buffer;
-
-      // const blob = new Blob([response], { type: "audio/mpeg" });
-      // const fileName = `podcast-${Date.now()}.mp3`;
-      // const file = new File([blob], fileName, { type: "audio/mpeg" });
-
-      console.log(response);
-
-      // const uploaded = await startUpload([file]);
-
-      // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // const storageId = (uploaded[0].response as any).storageId;
-
-      // const audioUrl = await getAudioUrl({ storageId });
-      // setAudio((prevState) => ({ ...prevState, audioUrl: audioUrl! }));
-      setIsGenerating(false);
-
-      toast({
-        title: "Podcast generated successfully",
-      });
-    } catch (error) {
-      console.log(error);
-      toast({
-        variant: "destructive",
-        title: "Error creating a podcast",
-      });
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
-  return {
-    isGenerating,
-    generatePodcast,
-  };
-};
-
 const GeneratePodcast = (props: GeneratePodcastProps) => {
   const {
-    voice: { voicePrompt },
     audio: { audioUrl },
     setAudio,
   } = props;
@@ -168,12 +96,13 @@ const GeneratePodcast = (props: GeneratePodcastProps) => {
           src={audioUrl}
           autoPlay
           className="mt-5"
-          onLoadedMetadata={(e) =>
+          onLoadedMetadata={(e: React.SyntheticEvent<HTMLMediaElement>) => {
+            const target = e.target as HTMLMediaElement;
             setAudio((prevState) => ({
               ...prevState,
-              audioDuration: e.target.duration,
-            }))
-          }
+              audioDuration: target.duration,
+            }));
+          }}
         />
       )}
     </section>
