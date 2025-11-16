@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { sidebarLinks } from "@/constants";
-import { cn } from "@/lib/utils";
-import { useAudio } from "@/providers/AudioProvider";
-import { SignedIn, SignedOut, useClerk } from "@clerk/nextjs";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { Button } from "./ui/button";
+import { sidebarLinks } from '@/constants';
+import { cn } from '@/lib/utils';
+import { useAudio } from '@/providers/AudioProvider';
+import { SignedIn, SignedOut, useClerk } from '@clerk/nextjs';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { Button } from '../ui/button';
 
-const LeftSidebar = () => {
+export const LeftSidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { signOut } = useClerk();
@@ -17,8 +17,8 @@ const LeftSidebar = () => {
 
   return (
     <aside
-      className={cn("left_sidebar h-[calc(100vh-5px)]", {
-        "has-[calc(100vh-140px)]": audio?.audioUrl,
+      className={cn('left_sidebar h-[calc(100vh-5px)]', {
+        'has-[calc(100vh-140px)]': audio?.audioUrl,
       })}
     >
       <nav className="flex flex-col gap-6">
@@ -40,10 +40,10 @@ const LeftSidebar = () => {
               href={route}
               key={label}
               className={cn(
-                "flex gap-3 items-center py-4 max-lg:px-4 justify-center lg:justify-start",
+                'flex gap-3 items-center py-4 max-lg:px-4 justify-center lg:justify-start',
                 {
-                  "bg-nav-focus border-r-4 border-orange-1": isActive,
-                }
+                  'bg-nav-focus border-r-4 border-orange-1': isActive,
+                },
               )}
             >
               <Image src={imgURL} alt={label} width={24} height={24} />
@@ -63,7 +63,7 @@ const LeftSidebar = () => {
         <div className="flex-center w-full pb-14 max-lg:px-4 lg:pr-8">
           <Button
             className="text-16 w-full bg-orange-1 font-extrabold"
-            onClick={() => signOut(() => router.push("/"))}
+            onClick={() => signOut(() => router.push('/'))}
           >
             Sign Out
           </Button>
@@ -72,5 +72,3 @@ const LeftSidebar = () => {
     </aside>
   );
 };
-
-export default LeftSidebar;

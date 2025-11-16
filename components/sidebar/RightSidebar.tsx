@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { api } from "@/convex/_generated/api";
-import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
-import { useQuery } from "convex/react";
-import Image from "next/image";
-import Link from "next/link";
-import Carousel from "./Carousel";
-import Header from "./Header";
+import { api } from '@/convex/_generated/api';
+import { SignedIn, UserButton, useUser } from '@clerk/nextjs';
+import { useQuery } from 'convex/react';
+import Image from 'next/image';
+import Link from 'next/link';
+import Header from '../Header';
+import Carousel from '../Carousel';
 
-const RightSidebar = () => {
+export const RightSidebar = () => {
   const { user } = useUser();
   const topPodcasters = useQuery(api.users.getTopUserByPodcastCount);
 
@@ -43,5 +43,3 @@ const RightSidebar = () => {
     </aside>
   );
 };
-
-export default RightSidebar;

@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import EmptyState from "@/components/EmptyState";
-import LoaderSpinner from "@/components/LoaderSpinner";
-import PodcastCard from "@/components/PodcastCard";
-import PodcastDetailPlayer from "@/components/PodcastDetailPlayer";
-import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-import { useUser } from "@clerk/nextjs";
-import { useQuery } from "convex/react";
-import Image from "next/image";
-import { use } from "react";
+import EmptyState from '@/components/EmptyState';
+import LoaderSpinner from '@/components/LoaderSpinner';
+import PodcastCard from '@/components/podcast/PodcastCard';
+import PodcastDetailPlayer from '@/components/podcast/PodcastDetailPlayer';
+import { api } from '@/convex/_generated/api';
+import { Id } from '@/convex/_generated/dataModel';
+import { useUser } from '@clerk/nextjs';
+import { useQuery } from 'convex/react';
+import Image from 'next/image';
+import { use } from 'react';
 
 const PodcastDetails = ({
   params,
 }: {
-  params: Promise<{ podcastId: Id<"podcasts"> }>;
+  params: Promise<{ podcastId: Id<'podcasts'> }>;
 }) => {
   const { podcastId } = use(params);
 
@@ -53,8 +53,8 @@ const PodcastDetails = ({
         podcastTitle={podcast.podcastTitle}
         author={podcast.author}
         imageUrl={podcast.imageUrl as string}
-        imageStorageId={podcast.imageStorageId as Id<"_storage">}
-        audioStorageId={podcast.audioStorageId as Id<"_storage">}
+        imageStorageId={podcast.imageStorageId as Id<'_storage'>}
+        audioStorageId={podcast.audioStorageId as Id<'_storage'>}
         authorImageUrl={podcast.authorImageUrl}
         authorId={podcast.authorId}
       />
@@ -80,7 +80,7 @@ const PodcastDetails = ({
                 description={podcastDescription}
                 podcastId={_id}
               />
-            )
+            ),
           )
         ) : (
           <EmptyState

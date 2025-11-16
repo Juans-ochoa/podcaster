@@ -1,7 +1,7 @@
-"use client";
-import GeneratePodcast from "@/components/GeneratePodcast";
-import GenerateThumbnail from "@/components/GenerateThumbnail";
-import { Button } from "@/components/ui/button";
+'use client';
+import GenerateThumbnail from '@/components/GenerateThumbnail';
+import GeneratePodcast from '@/components/podcast/GeneratePodcast';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -9,96 +9,25 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { api } from "@/convex/_generated/api";
-import { toast } from "@/hooks/use-toast";
-import { AudioState, ImageState, VoiceState } from "@/types";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "convex/react";
-import { Loader } from "lucide-react";
-import { useRouter } from "next/navigation";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { usePodcast } from '@/hooks/usePodcast';
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-const formSchema = z.object({
-  podcastTitle: z.string().min(2),
-  podcastDescription: z.string().min(2),
-  podcastTranscription: z.string().min(10),
-});
+import { Loader } from 'lucide-react';
 
 const CreatePodcast = () => {
-  const router = useRouter();
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-  const [image, setImage] = useState<ImageState>({
-    imageStorageId: null,
-    imageUrl: "",
-  });
-
-  const [audio, setAudio] = useState<AudioState>({
-    audioUrl: "",
-    audioStorageId: null,
-    audioDuration: 0,
-  });
-
-  const [voice, setVoice] = useState<VoiceState>({
-    voiceType: "",
-    voicePrompt: "",
-    voiceUrl: "",
-  });
-
-  const createPodcast = useMutation(api.podcasts.createPodcast);
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      podcastTitle: "",
-      podcastDescription: "",
-      podcastTranscription: "",
-    },
-  });
-
-  // 2. Define a submit handler.
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    setIsSubmitting(true);
-
-    if (!audio.audioUrl || !image.imageUrl) {
-      toast({
-        title: "Please generate audio and image",
-      });
-      setIsSubmitting(false);
-      throw new Error("Please generate audio and image");
-    }
-
-    try {
-      await createPodcast({
-        audioStorageId: audio.audioStorageId!,
-        podcastTitle: data.podcastTitle,
-        podcastDescription: data.podcastDescription,
-        audioUrl: audio.audioUrl,
-        imageUrl: image.imageUrl,
-        imageStorageId: image.imageStorageId!,
-        views: 0,
-        audioDuration: audio.audioDuration,
-        podcastTranscription: data.podcastTranscription,
-      });
-
-      toast({ title: "Podcast created" });
-      router.push("/");
-    } catch (e) {
-      console.log(e);
-      toast({
-        title: "Something was wrong, podcast was not created",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
+  const {
+    form,
+    onSubmit,
+    image,
+    audio,
+    voice,
+    setImage,
+    setAudio,
+    setVoice,
+    isSubmitting,
+  } = usePodcast();
 
   return (
     <section className="mt-10 flex flex-col">
@@ -188,7 +117,7 @@ const CreatePodcast = () => {
                   Submitting <Loader size={24} className="ml-2 animate-spin" />
                 </>
               ) : (
-                "Submit"
+                'Submit'
               )}
             </Button>
           </div>

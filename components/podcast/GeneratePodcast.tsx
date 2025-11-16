@@ -1,12 +1,12 @@
-import { api } from "@/convex/_generated/api";
-import { useToast } from "@/hooks/use-toast";
-import { GeneratePodcastProps } from "@/types";
-import { useUploadFiles } from "@xixixao/uploadstuff/react";
-import { useMutation } from "convex/react";
-import { Loader } from "lucide-react";
-import Image from "next/image";
-import { useRef, useState } from "react";
-import { Input } from "./ui/input";
+import { api } from '@/convex/_generated/api';
+import { useToast } from '@/hooks/use-toast';
+import { GeneratePodcastProps } from '@/types';
+import { useUploadFiles } from '@xixixao/uploadstuff/react';
+import { useMutation } from 'convex/react';
+import { Loader } from 'lucide-react';
+import Image from 'next/image';
+import { useRef, useState } from 'react';
+import { Input } from '../ui/input';
 
 const GeneratePodcast = (props: GeneratePodcastProps) => {
   const {
@@ -36,7 +36,7 @@ const GeneratePodcast = (props: GeneratePodcastProps) => {
       const blob = await file.arrayBuffer().then((ab) => new Blob([ab]));
 
       const fileName = `podcast-${Date.now()}.mp3`;
-      const fileEnd = new File([blob], fileName, { type: "audio/mpeg" });
+      const fileEnd = new File([blob], fileName, { type: 'audio/mpeg' });
       const uploaded = await startUpload([fileEnd]);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const storageId = (uploaded[0].response as any).storageId;
@@ -52,12 +52,12 @@ const GeneratePodcast = (props: GeneratePodcastProps) => {
       setIsAudioLoading(false);
 
       toast({
-        title: "Podcast generated successfully",
+        title: 'Podcast generated successfully',
       });
     } catch (error) {
       console.log(error);
       setIsAudioLoading(false);
-      toast({ title: "Error uploading audio", variant: "destructive" });
+      toast({ title: 'Error uploading audio', variant: 'destructive' });
     }
   };
 

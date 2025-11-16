@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
 import {
   Sheet,
   SheetClose,
   SheetContent,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { sidebarLinks } from "@/constants";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+} from '@/components/ui/sheet';
+import { sidebarLinks } from '@/constants';
+import { cn } from '@/lib/utils';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-const MobileNav = () => {
+export const MobileNav = () => {
   const pathname = usePathname();
 
   return (
@@ -49,10 +49,10 @@ const MobileNav = () => {
                       <Link
                         href={route}
                         className={cn(
-                          "flex gap-3 items-center py-4 max-lg:px-4 justify-start",
+                          'flex gap-3 items-center py-4 max-lg:px-4 justify-start',
                           {
-                            "bg-nav-focus border-r-4 border-orange-1": isActive,
-                          }
+                            'bg-nav-focus border-r-4 border-orange-1': isActive,
+                          },
                         )}
                       >
                         <Image
@@ -74,5 +74,3 @@ const MobileNav = () => {
     </section>
   );
 };
-
-export default MobileNav;

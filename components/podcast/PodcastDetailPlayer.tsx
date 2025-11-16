@@ -1,17 +1,17 @@
-"use client";
-import { useMutation } from "convex/react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+'use client';
+import { useMutation } from 'convex/react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-import { api } from "@/convex/_generated/api";
+import { api } from '@/convex/_generated/api';
 
-import { PodcastDetailPlayerProps } from "@/types";
+import { PodcastDetailPlayerProps } from '@/types';
 
-import { useToast } from "@/hooks/use-toast";
-import { useAudio } from "@/providers/AudioProvider";
-import LoaderSpinner from "./LoaderSpinner";
-import { Button } from "./ui/button";
+import { useToast } from '@/hooks/use-toast';
+import { useAudio } from '@/providers/AudioProvider';
+import LoaderSpinner from '../LoaderSpinner';
+import { Button } from '../ui/button';
 
 const PodcastDetailPlayer = ({
   audioUrl,
@@ -35,14 +35,14 @@ const PodcastDetailPlayer = ({
     try {
       await deletePodcast({ podcastId, imageStorageId, audioStorageId });
       toast({
-        title: "Podcast deleted",
+        title: 'Podcast deleted',
       });
-      router.push("/");
+      router.push('/');
     } catch (error) {
-      console.error("Error deleting podcast", error);
+      console.error('Error deleting podcast', error);
       toast({
-        title: "Error deleting podcast",
-        variant: "destructive",
+        title: 'Error deleting podcast',
+        variant: 'destructive',
       });
     }
   };

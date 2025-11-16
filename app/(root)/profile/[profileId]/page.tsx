@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import EmptyState from "@/components/EmptyState";
-import LoaderSpinner from "@/components/LoaderSpinner";
-import PodcastCard from "@/components/PodcastCard";
-import { api } from "@/convex/_generated/api";
-import { useQuery } from "convex/react";
-import { use } from "react";
+import EmptyState from '@/components/EmptyState';
+import LoaderSpinner from '@/components/LoaderSpinner';
+import PodcastCard from '@/components/podcast/PodcastCard';
+import { api } from '@/convex/_generated/api';
+import { useQuery } from 'convex/react';
+import { use } from 'react';
 
 const Profile = ({ params }: { params: Promise<{ profileId: string }> }) => {
   const { profileId } = use(params);
@@ -27,7 +27,7 @@ const Profile = ({ params }: { params: Promise<{ profileId: string }> }) => {
       </h1>
       <article className="mt-6 flex flex-col gap-6 max-md:items-center md:flex-row"></article>
       <article className="mt-9 flex flex-col gap-5">
-        <h2 className="text-20">All Podcasts</h2>
+        <h2 className="text-20 text-white-1">All Podcasts</h2>
         {podcastsData && podcastsData.podcasts.length > 0 ? (
           <div className="podcast_grid">
             {podcastsData.podcasts.map((podcast) => (

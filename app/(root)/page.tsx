@@ -1,6 +1,6 @@
 "use client";
 
-import PodcastCard from "@/components/PodcastCard";
+import PodcastCard from "@/components/podcast/PodcastCard";
 import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 
